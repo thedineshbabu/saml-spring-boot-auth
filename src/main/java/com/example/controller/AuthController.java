@@ -247,9 +247,12 @@ public class AuthController {
         if (idpId != null && !idpId.trim().isEmpty()) {
             // Redirect to specific IdP logout
             Optional<IdpConfiguration> idpConfig = idpConfigurationService.getByIdpId(idpId);
-            if (idpConfig.isPresent() && idpConfig.get().getIdpSloUrl() != null) {
-                logger.info("Redirecting to IdP logout: {}", idpConfig.get().getIdpName());
-                return "redirect:" + idpConfig.get().getIdpSloUrl();
+            if (idpConfig.isPresent()) {
+                String sloUrl = idpConfig.get().getPropertyValue("idp_slo_url");
+                if (sloUrl != null) {
+                    logger.info("Redirecting to IdP logout: {}", idpConfig.get().getIdpName());
+                    return "redirect:" + sloUrl;
+                }
             }
         }
         

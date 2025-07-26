@@ -19,7 +19,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Repository
-public interface IdpConfigurationRepository extends JpaRepository<IdpConfiguration, Long> {
+public interface IdpConfigurationRepository extends JpaRepository<IdpConfiguration, Integer> {
     
     /**
      * Find IdP configuration by IdP ID.
@@ -43,13 +43,8 @@ public interface IdpConfigurationRepository extends JpaRepository<IdpConfigurati
      */
     Optional<IdpConfiguration> findByIsDefaultTrue();
     
-    /**
-     * Find IdP configuration by entity ID.
-     * 
-     * @param entityId the SAML entity ID
-     * @return Optional containing the IdP configuration if found
-     */
-    Optional<IdpConfiguration> findByIdpEntityId(String entityId);
+    // Note: SAML-specific fields like entity ID are stored in the properties table
+    // This method is removed as the field no longer exists in the main entity
     
     /**
      * Find IdP configuration by email domain.

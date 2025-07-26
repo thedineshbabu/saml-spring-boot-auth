@@ -57,7 +57,7 @@ public class IdpConfigurationService {
      * @return Optional containing the IdP configuration if found
      */
     @Cacheable("idpConfiguration")
-    public Optional<IdpConfiguration> getById(Long id) {
+    public Optional<IdpConfiguration> getById(Integer id) {
         logger.debug("Fetching IdP configuration with ID: {}", id);
         return idpConfigurationRepository.findById(id);
     }
@@ -161,21 +161,20 @@ public class IdpConfigurationService {
      * @return Optional containing the updated IdP configuration if found
      */
     @CacheEvict(value = {"idpConfigurations", "idpConfigurationsWithDetails", "idpConfiguration", "defaultIdpConfiguration"}, allEntries = true)
-    public Optional<IdpConfiguration> updateIdpConfiguration(Long id, IdpConfiguration configuration) {
+    public Optional<IdpConfiguration> updateIdpConfiguration(Integer id, IdpConfiguration configuration) {
         logger.info("Updating IdP configuration with ID: {}", id);
         
         return idpConfigurationRepository.findById(id)
                 .map(existingConfig -> {
-                    // Update fields
+                    // Update basic fields
                     existingConfig.setIdpName(configuration.getIdpName());
-                    existingConfig.setIdpEntityId(configuration.getIdpEntityId());
-                    existingConfig.setIdpSsoUrl(configuration.getIdpSsoUrl());
-                    existingConfig.setIdpSloUrl(configuration.getIdpSloUrl());
-                    existingConfig.setIdpCertificate(configuration.getIdpCertificate());
                     existingConfig.setLogoUrl(configuration.getLogoUrl());
                     existingConfig.setDisplayName(configuration.getDisplayName());
                     existingConfig.setIsActive(configuration.getIsActive());
                     existingConfig.setIsDefault(configuration.getIsDefault());
+                    
+                    // TODO: Update SAML-specific properties in the properties table
+                    // This will be implemented when we add property management
                     
                     IdpConfiguration updatedConfig = idpConfigurationRepository.save(existingConfig);
                     logger.info("Successfully updated IdP configuration with ID: {}", updatedConfig.getId());
@@ -191,7 +190,7 @@ public class IdpConfigurationService {
      * @return true if the configuration was deleted
      */
     @CacheEvict(value = {"idpConfigurations", "idpConfigurationsWithDetails", "idpConfiguration", "defaultIdpConfiguration"}, allEntries = true)
-    public boolean deleteIdpConfiguration(Long id) {
+    public boolean deleteIdpConfiguration(Integer id) {
         logger.info("Deleting IdP configuration with ID: {}", id);
         
         if (idpConfigurationRepository.existsById(id)) {
@@ -292,12 +291,6 @@ public class IdpConfigurationService {
         }
         if (configuration.getIdpName() == null || configuration.getIdpName().trim().isEmpty()) {
             throw new IllegalArgumentException("IdP name is required");
-        }
-        if (configuration.getIdpEntityId() == null || configuration.getIdpEntityId().trim().isEmpty()) {
-            throw new IllegalArgumentException("IdP entity ID is required");
-        }
-        if (configuration.getIdpSsoUrl() == null || configuration.getIdpSsoUrl().trim().isEmpty()) {
-            throw new IllegalArgumentException("IdP SSO URL is required");
         }
         
         // Check for duplicate IdP ID

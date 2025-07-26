@@ -25,35 +25,21 @@ public class IdpConfiguration {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @NotBlank(message = "IdP ID is required")
     @Column(name = "idp_id", unique = true, nullable = false, length = 100)
     private String idpId;
     
     @NotBlank(message = "IdP name is required")
-    @Column(name = "idp_name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false, length = 200)
     private String idpName;
-    
-    @NotBlank(message = "IdP entity ID is required")
-    @Column(name = "idp_entity_id", nullable = false, length = 255)
-    private String idpEntityId;
-    
-    @NotBlank(message = "IdP SSO URL is required")
-    @Column(name = "idp_sso_url", nullable = false, length = 500)
-    private String idpSsoUrl;
-    
-    @Column(name = "idp_slo_url", length = 500)
-    private String idpSloUrl;
-    
-    @Column(name = "idp_certificate", columnDefinition = "TEXT")
-    private String idpCertificate;
-    
-    @Column(name = "logo_url", length = 500)
-    private String logoUrl;
     
     @Column(name = "display_name", length = 200)
     private String displayName;
+    
+    @Column(name = "logo_url", length = 500)
+    private String logoUrl;
     
     @NotNull
     @Column(name = "is_active", nullable = false)
@@ -81,19 +67,17 @@ public class IdpConfiguration {
     // Constructors
     public IdpConfiguration() {}
     
-    public IdpConfiguration(String idpId, String idpName, String idpEntityId, String idpSsoUrl) {
+    public IdpConfiguration(String idpId, String idpName) {
         this.idpId = idpId;
         this.idpName = idpName;
-        this.idpEntityId = idpEntityId;
-        this.idpSsoUrl = idpSsoUrl;
     }
     
     // Getters and Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     
@@ -113,36 +97,38 @@ public class IdpConfiguration {
         this.idpName = idpName;
     }
     
+    // SAML-specific fields will be stored in the properties table
+    // These methods are kept for compatibility but will be implemented differently
     public String getIdpEntityId() {
-        return idpEntityId;
+        return getPropertyValue("idp_entity_id");
     }
     
     public void setIdpEntityId(String idpEntityId) {
-        this.idpEntityId = idpEntityId;
+        // This will be handled by the service layer
     }
     
     public String getIdpSsoUrl() {
-        return idpSsoUrl;
+        return getPropertyValue("idp_sso_url");
     }
     
     public void setIdpSsoUrl(String idpSsoUrl) {
-        this.idpSsoUrl = idpSsoUrl;
+        // This will be handled by the service layer
     }
     
     public String getIdpSloUrl() {
-        return idpSloUrl;
+        return getPropertyValue("idp_slo_url");
     }
     
     public void setIdpSloUrl(String idpSloUrl) {
-        this.idpSloUrl = idpSloUrl;
+        // This will be handled by the service layer
     }
     
     public String getIdpCertificate() {
-        return idpCertificate;
+        return getPropertyValue("idp_certificate");
     }
     
     public void setIdpCertificate(String idpCertificate) {
-        this.idpCertificate = idpCertificate;
+        // This will be handled by the service layer
     }
     
     public String getLogoUrl() {

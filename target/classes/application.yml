@@ -88,8 +88,7 @@ management:
     health:
       show-details: when-authorized
 
-# Cache Configuration
-spring:
+  # Cache Configuration
   cache:
     type: simple
     cache-names:

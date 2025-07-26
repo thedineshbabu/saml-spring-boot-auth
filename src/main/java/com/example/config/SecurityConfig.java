@@ -147,17 +147,26 @@ public class SecurityConfig {
         logger.debug("Creating SAML registration for IdP: {}", idpConfig.getIdpName());
         
         try {
-                           return RelyingPartyRegistration
-                   .withRegistrationId(idpConfig.getIdpId())
-                   .assertionConsumerServiceLocation("http://localhost:8080/login/saml2/sso/" + idpConfig.getIdpId())
-                   .entityId("http://localhost:8080/saml2/service-provider-metadata/" + idpConfig.getIdpId())
-                   .assertingPartyDetails(party -> party
-                       .entityId(idpConfig.getIdpEntityId())
-                       .singleSignOnServiceLocation(idpConfig.getIdpSsoUrl())
-                       .singleSignOnServiceBinding(Saml2MessageBinding.REDIRECT)
-                       .wantAuthnRequestsSigned(false)
-                   )
-                   .build();
+                                           // Get SAML properties from the properties table
+                String entityId = idpConfig.getPropertyValue("idp_entity_id");
+                String ssoUrl = idpConfig.getPropertyValue("idp_sso_url");
+                
+                if (entityId == null || ssoUrl == null) {
+                    logger.warn("Missing SAML properties for IdP: {}", idpConfig.getIdpId());
+                    return null;
+                }
+                
+                return RelyingPartyRegistration
+                    .withRegistrationId(idpConfig.getIdpId())
+                    .assertionConsumerServiceLocation("http://localhost:8080/login/saml2/sso/" + idpConfig.getIdpId())
+                    .entityId("http://localhost:8080/saml2/service-provider-metadata/" + idpConfig.getIdpId())
+                    .assertingPartyDetails(party -> party
+                        .entityId(entityId)
+                        .singleSignOnServiceLocation(ssoUrl)
+                        .singleSignOnServiceBinding(Saml2MessageBinding.REDIRECT)
+                        .wantAuthnRequestsSigned(false)
+                    )
+                    .build();
                 
         } catch (Exception e) {
             logger.error("Failed to create SAML registration for IdP {}: {}", 
