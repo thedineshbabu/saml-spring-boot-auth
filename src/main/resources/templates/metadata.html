@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML Metadata - Spring Boot Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .metadata-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .metadata-section h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .metadata-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metadata-info h3 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            color: #333;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .xml-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .xml-section h3 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .xml-content {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .xml-content {
+                font-size: 0.75rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>📋 SAML Metadata</h1>
+            <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="metadata-section">
+            <h2>
+                <span class="section-icon">🔧</span>
+                Service Provider Configuration
+            </h2>
+            
+            <div class="metadata-info">
+                <h3>Configuration Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Entity ID</div>
+                        <div class="info-value" th:text="${entityId}">http://localhost:8082/saml2/service-provider-metadata/default</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ACS URL</div>
+                        <div class="info-value" th:text="${acsUrl}">http://localhost:8082/login/saml2/sso/default</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Single Logout URL</div>
+                        <div class="info-value" th:text="${sloUrl}">http://localhost:8082/logout/saml2/slo/default</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Protocol Binding</div>
+                        <div class="info-value">HTTP-Redirect</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="xml-section">
+                <h3>SAML Metadata XML</h3>
+                <div class="xml-content" id="metadata-xml" th:text="${metadataXml}">
+                    <!-- SAML Metadata XML will be inserted here -->
+                </div>
+                <button class="copy-btn" onclick="copyMetadata()">📋 Copy Metadata</button>
+            </div>
+        </div>
+
+        <div class="metadata-section">
+            <h2>
+                <span class="section-icon">ℹ️</span>
+                Usage Instructions
+            </h2>
+            
+            <div class="metadata-info">
+                <h3>How to Use This Metadata</h3>
+                <div style="color: #666; line-height: 1.6;">
+                    <p><strong>1. Identity Provider Configuration:</strong> Copy the SAML metadata XML above and configure it in your Identity Provider (IdP) as a Service Provider (SP).</p>
+                    
+                    <p><strong>2. Required Fields:</strong> Your IdP will need these key pieces of information:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Entity ID:</strong> <span th:text="${entityId}" style="font-family: monospace; background: #f1f3f4; padding: 0.2rem 0.4rem; border-radius: 3px;"></span></li>
+                        <li><strong>ACS URL:</strong> <span th:text="${acsUrl}" style="font-family: monospace; background: #f1f3f4; padding: 0.2rem 0.4rem; border-radius: 3px;"></span></li>
+                        <li><strong>Single Logout URL:</strong> <span th:text="${sloUrl}" style="font-family: monospace; background: #f1f3f4; padding: 0.2rem 0.4rem; border-radius: 3px;"></span></li>
+                    </ul>
+                    
+                    <p><strong>3. Certificate:</strong> The metadata includes the public certificate for signature verification. Ensure your IdP is configured to validate SAML responses using this certificate.</p>
+                    
+                    <p><strong>4. Attribute Mapping:</strong> Configure your IdP to send the required attributes (username, email, etc.) that this application expects.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Spring Boot SAML Application v1.0.0 | Powered by Spring Security SAML2</p>
+        <p>SAML metadata for service provider configuration</p>
+    </footer>
+
+    <script>
+        function copyMetadata() {
+            const metadataXml = document.getElementById('metadata-xml').textContent;
+            navigator.clipboard.writeText(metadataXml).then(function() {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#28a745';
+                
+                setTimeout(function() {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy metadata: ', err);
+                alert('Failed to copy metadata to clipboard');
+            });
+        }
+    </script>
+</body>
+</html> 
