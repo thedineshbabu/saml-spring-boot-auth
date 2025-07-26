@@ -103,49 +103,66 @@ public class AuthController {
      * Handle email-based IdP selection.
      * 
      * @param email the user's email address
+     * @param model the model to add attributes to
      * @param request the HTTP request
-     * @return redirect to appropriate IdP or error page
+     * @return redirect to appropriate IdP or login page with error
      */
     @PostMapping("/login")
-    public String processLogin(@RequestParam("email") String email, HttpServletRequest request) {
-        logger.info("Login attempt with email: {}", email);
+    public String processLogin(@RequestParam("email") String email, 
+                              Model model, 
+                              HttpServletRequest request) {
+        String clientIp = request.getRemoteAddr();
+        logger.info("Email-based login attempt for email: {} from IP: {}", email, clientIp);
         
-        if (email == null || email.trim().isEmpty()) {
-            logger.warn("Empty email provided for login");
-            return "redirect:/login?error=true";
-        }
-        
-        // Find IdP configuration for the email domain
-        Optional<IdpConfiguration> idpConfig = idpConfigurationService.findByIdpByEmail(email);
-        
-        if (idpConfig.isPresent()) {
-            IdpConfiguration config = idpConfig.get();
-            logger.info("Found IdP configuration '{}' for email: {}", config.getIdpName(), email);
+        try {
+            if (email == null || email.trim().isEmpty()) {
+                logger.warn("Empty email provided for login");
+                model.addAttribute("error", "Please enter a valid email address.");
+                model.addAttribute("email", email);
+                model.addAttribute("idpConfigurations", idpConfigurationService.getAllActiveIdpConfigurations());
+                return "login";
+            }
             
-            // Store email in session for later use
-            HttpSession session = request.getSession();
-            session.setAttribute("userEmail", email);
-            session.setAttribute("selectedIdp", config.getIdpId());
+            // Extract domain from email
+            String domain = extractDomainFromEmail(email.trim());
+            if (domain == null) {
+                logger.warn("Invalid email format: {}", email);
+                model.addAttribute("error", "Please enter a valid email address.");
+                model.addAttribute("email", email);
+                model.addAttribute("idpConfigurations", idpConfigurationService.getAllActiveIdpConfigurations());
+                return "login";
+            }
             
-            // Redirect to SAML login for the specific IdP
-            return "redirect:/saml2/authentication/" + config.getIdpId();
-        } else {
-            logger.warn("No IdP configuration found for email domain: {}", email);
+            // Find IdP configuration for the email domain
+            Optional<IdpConfiguration> idpConfig = idpConfigurationService.findByIdpByEmail(email);
             
-            // Try to use default IdP if available
-            Optional<IdpConfiguration> defaultConfig = idpConfigurationService.getDefaultIdpConfiguration();
-            if (defaultConfig.isPresent()) {
-                logger.info("Using default IdP configuration: {}", defaultConfig.get().getIdpName());
+            if (idpConfig.isPresent()) {
+                IdpConfiguration config = idpConfig.get();
+                logger.info("Found IdP configuration '{}' for domain '{}': {}", domain, config.getIdpName(), email);
                 
+                // Store email in session for later use
                 HttpSession session = request.getSession();
                 session.setAttribute("userEmail", email);
-                session.setAttribute("selectedIdp", defaultConfig.get().getIdpId());
+                session.setAttribute("selectedIdp", config.getIdpId());
                 
-                return "redirect:/saml2/authentication/" + defaultConfig.get().getIdpId();
+                // Redirect to SAML authentication for the found IdP
+                String redirectUrl = "/saml2/authenticate/" + config.getIdpId();
+                logger.info("Redirecting to SAML authentication: {}", redirectUrl);
+                return "redirect:" + redirectUrl;
             } else {
-                logger.error("No IdP configuration available for email: {}", email);
-                return "redirect:/login?error=true";
+                logger.warn("No IdP configuration found for domain: {}", domain);
+                model.addAttribute("error", "No identity provider configured for your email domain. Please contact your administrator or choose from the available providers below.");
+                model.addAttribute("email", email);
+                model.addAttribute("idpConfigurations", idpConfigurationService.getAllActiveIdpConfigurations());
+                return "login";
             }
+            
+        } catch (Exception e) {
+            logger.error("Error processing email-based login: {}", e.getMessage(), e);
+            model.addAttribute("error", "An error occurred while processing your request. Please try again.");
+            model.addAttribute("email", email);
+            model.addAttribute("idpConfigurations", idpConfigurationService.getAllActiveIdpConfigurations());
+            return "login";
         }
     }
     
@@ -278,6 +295,43 @@ public class AuthController {
             
         } catch (Exception e) {
             logger.error("Error extracting email from SAML attributes: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     * Extract domain from email address.
+     * 
+     * @param email the email address
+     * @return the domain part of the email or null if invalid
+     */
+    private String extractDomainFromEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return null;
+        }
+        
+        try {
+            // Simple email validation and domain extraction
+            String trimmedEmail = email.trim().toLowerCase();
+            
+            // Check if it's a valid email format
+            if (!trimmedEmail.contains("@") || trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@")) {
+                return null;
+            }
+            
+            // Extract domain part
+            String domain = trimmedEmail.substring(trimmedEmail.indexOf("@") + 1);
+            
+            // Basic domain validation
+            if (domain.isEmpty() || domain.contains("@") || domain.startsWith(".") || domain.endsWith(".")) {
+                return null;
+            }
+            
+            logger.debug("Extracted domain '{}' from email '{}'", domain, email);
+            return domain;
+            
+        } catch (Exception e) {
+            logger.error("Error extracting domain from email '{}': {}", e.getMessage());
             return null;
         }
     }

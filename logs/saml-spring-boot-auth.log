@@ -1840,3 +1840,827 @@ org.springframework.core.convert.ConverterNotFoundException: No converter found 
 2025-07-26 10:14:58 [http-nio-8082-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
 2025-07-26 10:14:58 [http-nio-8082-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured HEAD /
 2025-07-26 10:14:58 [http-nio-8082-exec-10] DEBUG c.example.controller.AuthController - Root endpoint accessed, redirecting to login
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:15:13 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:15:13 [http-nio-8082-exec-2] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:15:13 [http-nio-8082-exec-2] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /saml2/authenticate/azure-ad-kfdbh
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG com.example.config.SecurityConfig - Looking up SAML registration for ID: azure-ad-kfdbh
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG c.e.service.IdpConfigurationService - Fetching IdP configuration with IdP ID: azure-ad-kfdbh
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.idp_id=?
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG com.example.config.SecurityConfig - Creating SAML registration for IdP: Azure AD - KFDBH Dev
+2025-07-26 10:15:20 [http-nio-8082-exec-3] ERROR com.example.config.SecurityConfig - Failed to create SAML registration for IdP Azure AD - KFDBH Dev: failed to lazily initialize a collection of role: com.example.entity.IdpConfiguration.properties: could not initialize proxy - no Session
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.example.entity.IdpConfiguration.properties: could not initialize proxy - no Session
+	at org.hibernate.collection.spi.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:634)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:217)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:613)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.read(AbstractPersistentCollection.java:136)
+	at org.hibernate.collection.spi.PersistentBag.iterator(PersistentBag.java:371)
+	at java.base/java.util.Spliterators$IteratorSpliterator.estimateSize(Spliterators.java:1959)
+	at java.base/java.util.Spliterator.getExactSizeIfKnown(Spliterator.java:414)
+	at java.base/java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:587)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:574)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:150)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:687)
+	at com.example.entity.IdpConfiguration.getPropertyValue(IdpConfiguration.java:213)
+	at com.example.config.SecurityConfig.createRelyingPartyRegistration(SecurityConfig.java:151)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at com.example.config.SecurityConfig$1.findByRegistrationId(SecurityConfig.java:121)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSaml4AuthenticationRequestResolver.lambda$new$1(OpenSaml4AuthenticationRequestResolver.java:60)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSamlAuthenticationRequestResolver.resolve(OpenSamlAuthenticationRequestResolver.java:128)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSaml4AuthenticationRequestResolver.resolve(OpenSaml4AuthenticationRequestResolver.java:73)
+	at org.springframework.security.saml2.provider.service.web.Saml2WebSsoAuthenticationRequestFilter.doFilterInternal(Saml2WebSsoAuthenticationRequestFilter.java:98)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutResponseFilter.doFilterInternal(Saml2LogoutResponseFilter.java:112)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutRequestFilter.doFilterInternal(Saml2LogoutRequestFilter.java:126)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2025-07-26 10:15:20 [http-nio-8082-exec-3] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.lang.RuntimeException: SAML registration creation failed
+	at com.example.config.SecurityConfig.createRelyingPartyRegistration(SecurityConfig.java:174)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at com.example.config.SecurityConfig$1.findByRegistrationId(SecurityConfig.java:121)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSaml4AuthenticationRequestResolver.lambda$new$1(OpenSaml4AuthenticationRequestResolver.java:60)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSamlAuthenticationRequestResolver.resolve(OpenSamlAuthenticationRequestResolver.java:128)
+	at org.springframework.security.saml2.provider.service.web.authentication.OpenSaml4AuthenticationRequestResolver.resolve(OpenSaml4AuthenticationRequestResolver.java:73)
+	at org.springframework.security.saml2.provider.service.web.Saml2WebSsoAuthenticationRequestFilter.doFilterInternal(Saml2WebSsoAuthenticationRequestFilter.java:98)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutResponseFilter.doFilterInternal(Saml2LogoutResponseFilter.java:112)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutRequestFilter.doFilterInternal(Saml2LogoutRequestFilter.java:126)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.example.entity.IdpConfiguration.properties: could not initialize proxy - no Session
+	at org.hibernate.collection.spi.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:634)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:217)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:613)
+	at org.hibernate.collection.spi.AbstractPersistentCollection.read(AbstractPersistentCollection.java:136)
+	at org.hibernate.collection.spi.PersistentBag.iterator(PersistentBag.java:371)
+	at java.base/java.util.Spliterators$IteratorSpliterator.estimateSize(Spliterators.java:1959)
+	at java.base/java.util.Spliterator.getExactSizeIfKnown(Spliterator.java:414)
+	at java.base/java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:587)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:574)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:150)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:687)
+	at com.example.entity.IdpConfiguration.getPropertyValue(IdpConfiguration.java:213)
+	at com.example.config.SecurityConfig.createRelyingPartyRegistration(SecurityConfig.java:151)
+	... 70 common frames omitted
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:15:20 [http-nio-8082-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:16:15 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:16:15 [http-nio-8082-exec-5] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:16:15 [http-nio-8082-exec-5] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-07-26 10:16:15 [http-nio-8082-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:21:56 [main] INFO  com.example.SamlApplication - Starting SamlApplication using Java 24.0.1 with PID 14544 (/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/target/classes started by dinesh in /Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth)
+2025-07-26 10:21:56 [main] DEBUG com.example.SamlApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-07-26 10:21:56 [main] INFO  com.example.SamlApplication - No active profile set, falling back to 1 default profile: "default"
+2025-07-26 10:21:56 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-26 10:21:56 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 23 ms. Found 1 JPA repository interface.
+2025-07-26 10:21:56 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-07-26 10:21:56 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-26 10:21:56 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-07-26 10:21:56 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-26 10:21:56 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 658 ms
+2025-07-26 10:21:56 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-26 10:21:56 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-07-26 10:21:56 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-26 10:21:56 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-26 10:21:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-26 10:21:57 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6704df84
+2025-07-26 10:21:57 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-26 10:21:57 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-07-26 10:21:57 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-26 10:21:57 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-26 10:21:57 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-26 10:21:57 [main] DEBUG o.s.s.c.a.a.c.AuthenticationConfiguration$DefaultPasswordEncoderAuthenticationManagerBuilder - No authenticationProviders and no parentAuthenticationManager defined. Returning null.
+2025-07-26 10:21:57 [main] INFO  com.example.config.SecurityConfig - Configuring Spring Security with SAML authentication
+2025-07-26 10:21:58 [main] INFO  com.example.config.SecurityConfig - Initializing SAML Relying Party Registration Repository
+2025-07-26 10:21:58 [main] INFO  com.example.config.SecurityConfig - Spring Security configuration completed successfully
+2025-07-26 10:21:58 [main] INFO  o.o.c.config.InitializationService - Initializing OpenSAML using the Java Services API
+2025-07-26 10:21:58 [main] INFO  o.o.x.algorithm.AlgorithmRegistry - Algorithm failed runtime support check, will not be usable: http://www.w3.org/2001/04/xmlenc#ripemd160
+2025-07-26 10:21:58 [main] INFO  o.o.x.algorithm.AlgorithmRegistry - Algorithm failed runtime support check, will not be usable: http://www.w3.org/2001/04/xmldsig-more#hmac-ripemd160
+2025-07-26 10:21:58 [main] INFO  o.o.x.algorithm.AlgorithmRegistry - Algorithm failed runtime support check, will not be usable: http://www.w3.org/2001/04/xmldsig-more#rsa-ripemd160
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Initialized OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] DEBUG o.s.s.s.c.OpenSamlInitializationService - Refused to re-initialize OpenSAML
+2025-07-26 10:21:58 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@563434b4, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@40977fab, org.springframework.security.web.context.SecurityContextHolderFilter@46135aba, org.springframework.security.web.header.HeaderWriterFilter@5e324000, org.springframework.web.filter.CorsFilter@326c526a, org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutRequestFilter@1f3b8bfe, org.springframework.security.saml2.provider.service.web.authentication.logout.Saml2LogoutResponseFilter@2bb7229e, org.springframework.security.web.authentication.logout.LogoutFilter@32549c2d, org.springframework.security.web.authentication.logout.LogoutFilter@1945b6db, org.springframework.security.saml2.provider.service.web.Saml2WebSsoAuthenticationRequestFilter@481d6644, org.springframework.security.saml2.provider.service.web.authentication.Saml2WebSsoAuthenticationFilter@3e2afba0, org.springframework.security.web.session.ConcurrentSessionFilter@50f6eb17, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@411e5672, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1efdaec0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2094a7be, org.springframework.security.web.session.SessionManagementFilter@78c0fad6, org.springframework.security.web.access.ExceptionTranslationFilter@6b4d0be2, org.springframework.security.web.access.intercept.AuthorizationFilter@4146577c]
+2025-07-26 10:21:58 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8082 (http) with context path ''
+2025-07-26 10:21:58 [main] INFO  com.example.SamlApplication - Started SamlApplication in 2.933 seconds (process running for 3.101)
+2025-07-26 10:21:58 [main] INFO  com.example.SamlApplication - Spring Boot SAML Application started successfully!
+2025-07-26 10:21:58 [main] INFO  com.example.SamlApplication - Application is running on: http://localhost:8080
+2025-07-26 10:21:58 [main] INFO  com.example.SamlApplication - SAML Metadata available at: http://localhost:8080/saml2/service-provider-metadata
+2025-07-26 10:24:55 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-26 10:24:55 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-26 10:24:55 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:24:55 [http-nio-8082-exec-2] WARN  o.s.w.s.h.HandlerMappingIntrospector - Cache miss for REQUEST dispatch to '/login' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:24:55 [http-nio-8082-exec-2] WARN  o.s.w.s.h.HandlerMappingIntrospector - Cache miss for REQUEST dispatch to '/login' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:24:55 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:24:55 [http-nio-8082-exec-2] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:24:55 [http-nio-8082-exec-2] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:15 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:15 [http-nio-8082-exec-1] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:25:15 [http-nio-8082-exec-1] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /login
+2025-07-26 10:25:18 [http-nio-8082-exec-3] INFO  c.example.controller.AuthController - Email-based login attempt for email: kf1sadmin@kfdbhdevoutlook.onmicrosoft.com from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG c.example.controller.AuthController - Extracted domain 'kfdbhdevoutlook.onmicrosoft.com' from email 'kf1sadmin@kfdbhdevoutlook.onmicrosoft.com'
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG c.e.service.IdpConfigurationService - Finding IdP configuration for email domain: kfdbhdevoutlook.onmicrosoft.com
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        ic 
+    FROM
+        IdpConfiguration ic 
+    JOIN
+        ic.emailDomains ed 
+    WHERE
+        ed.emailDomain = :emailDomain 
+        AND ed.isActive = true 
+        AND ic.isActive = true */ select
+            ic1_0.id,
+            ic1_0.created_at,
+            ic1_0.display_name,
+            ic1_0.idp_id,
+            ic1_0.name,
+            ic1_0.is_active,
+            ic1_0.is_default,
+            ic1_0.logo_url,
+            ic1_0.updated_at 
+        from
+            idp_configurations ic1_0 
+        join
+            idp_email_domains ed1_0 
+                on ic1_0.id=ed1_0.idp_configuration_id 
+        where
+            ed1_0.email_domain=? 
+            and ed1_0.is_active=true 
+            and ic1_0.is_active=true
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-3] INFO  c.e.service.IdpConfigurationService - Found IdP configuration 'Azure AD - KFDBH Dev' for email domain: kfdbhdevoutlook.onmicrosoft.com
+2025-07-26 10:25:18 [http-nio-8082-exec-3] INFO  c.example.controller.AuthController - Found IdP configuration 'kfdbhdevoutlook.onmicrosoft.com' for domain 'Azure AD - KFDBH Dev': kf1sadmin@kfdbhdevoutlook.onmicrosoft.com
+2025-07-26 10:25:18 [http-nio-8082-exec-3] INFO  c.example.controller.AuthController - Redirecting to SAML authentication: /saml2/authenticate/azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /saml2/authenticate/azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG com.example.config.SecurityConfig - Looking up SAML registration for ID: azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG c.e.service.IdpConfigurationService - Fetching IdP configuration with IdP ID: azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.idp_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG com.example.config.SecurityConfig - Creating SAML registration for IdP: Azure AD - KFDBH Dev
+2025-07-26 10:25:18 [http-nio-8082-exec-4] WARN  com.example.config.SecurityConfig - Missing SAML properties for IdP: azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:18 [http-nio-8082-exec-4] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8082/saml2/authenticate/azure-ad-kfdbh?continue to session
+2025-07-26 10:25:18 [http-nio-8082-exec-4] WARN  com.example.config.SecurityConfig - Authentication required for: /saml2/authenticate/azure-ad-kfdbh
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:18 [http-nio-8082-exec-6] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:25:18 [http-nio-8082-exec-6] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /login
+2025-07-26 10:25:29 [http-nio-8082-exec-5] INFO  c.example.controller.AuthController - Email-based login attempt for email: globaladmin@kashyaptummidigmail.onmicrosoft.com from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG c.example.controller.AuthController - Extracted domain 'kashyaptummidigmail.onmicrosoft.com' from email 'globaladmin@kashyaptummidigmail.onmicrosoft.com'
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG c.e.service.IdpConfigurationService - Finding IdP configuration for email domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        ic 
+    FROM
+        IdpConfiguration ic 
+    JOIN
+        ic.emailDomains ed 
+    WHERE
+        ed.emailDomain = :emailDomain 
+        AND ed.isActive = true 
+        AND ic.isActive = true */ select
+            ic1_0.id,
+            ic1_0.created_at,
+            ic1_0.display_name,
+            ic1_0.idp_id,
+            ic1_0.name,
+            ic1_0.is_active,
+            ic1_0.is_default,
+            ic1_0.logo_url,
+            ic1_0.updated_at 
+        from
+            idp_configurations ic1_0 
+        join
+            idp_email_domains ed1_0 
+                on ic1_0.id=ed1_0.idp_configuration_id 
+        where
+            ed1_0.email_domain=? 
+            and ed1_0.is_active=true 
+            and ic1_0.is_active=true
+2025-07-26 10:25:29 [http-nio-8082-exec-5] WARN  c.e.service.IdpConfigurationService - No IdP configuration found for email domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:29 [http-nio-8082-exec-5] WARN  c.example.controller.AuthController - No IdP configuration found for domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:29 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:29 [http-nio-8082-exec-5] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /login
+2025-07-26 10:25:38 [http-nio-8082-exec-7] INFO  c.example.controller.AuthController - Email-based login attempt for email: globaladmin@kashyaptummidigmail.onmicrosoft.com from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG c.example.controller.AuthController - Extracted domain 'kashyaptummidigmail.onmicrosoft.com' from email 'globaladmin@kashyaptummidigmail.onmicrosoft.com'
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG c.e.service.IdpConfigurationService - Finding IdP configuration for email domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        ic 
+    FROM
+        IdpConfiguration ic 
+    JOIN
+        ic.emailDomains ed 
+    WHERE
+        ed.emailDomain = :emailDomain 
+        AND ed.isActive = true 
+        AND ic.isActive = true */ select
+            ic1_0.id,
+            ic1_0.created_at,
+            ic1_0.display_name,
+            ic1_0.idp_id,
+            ic1_0.name,
+            ic1_0.is_active,
+            ic1_0.is_default,
+            ic1_0.logo_url,
+            ic1_0.updated_at 
+        from
+            idp_configurations ic1_0 
+        join
+            idp_email_domains ed1_0 
+                on ic1_0.id=ed1_0.idp_configuration_id 
+        where
+            ed1_0.email_domain=? 
+            and ed1_0.is_active=true 
+            and ic1_0.is_active=true
+2025-07-26 10:25:38 [http-nio-8082-exec-7] WARN  c.e.service.IdpConfigurationService - No IdP configuration found for email domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:38 [http-nio-8082-exec-7] WARN  c.example.controller.AuthController - No IdP configuration found for domain: kashyaptummidigmail.onmicrosoft.com
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:25:38 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:25:38 [http-nio-8082-exec-7] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG c.example.controller.AuthController - Login page requested from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:29:17 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:29:17 [http-nio-8082-exec-1] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations
+2025-07-26 10:29:17 [http-nio-8082-exec-1] INFO  c.example.controller.AuthController - Login page displayed with 1 IdP configurations
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /login
+2025-07-26 10:29:20 [http-nio-8082-exec-4] INFO  c.example.controller.AuthController - Email-based login attempt for email: test@example.com from IP: 0:0:0:0:0:0:0:1
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG c.example.controller.AuthController - Extracted domain 'example.com' from email 'test@example.com'
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG c.e.service.IdpConfigurationService - Finding IdP configuration for email domain: example.com
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        ic 
+    FROM
+        IdpConfiguration ic 
+    JOIN
+        ic.emailDomains ed 
+    WHERE
+        ed.emailDomain = :emailDomain 
+        AND ed.isActive = true 
+        AND ic.isActive = true */ select
+            ic1_0.id,
+            ic1_0.created_at,
+            ic1_0.display_name,
+            ic1_0.idp_id,
+            ic1_0.name,
+            ic1_0.is_active,
+            ic1_0.is_default,
+            ic1_0.logo_url,
+            ic1_0.updated_at 
+        from
+            idp_configurations ic1_0 
+        join
+            idp_email_domains ed1_0 
+                on ic1_0.id=ed1_0.idp_configuration_id 
+        where
+            ed1_0.email_domain=? 
+            and ed1_0.is_active=true 
+            and ic1_0.is_active=true
+2025-07-26 10:29:20 [http-nio-8082-exec-4] WARN  c.e.service.IdpConfigurationService - No IdP configuration found for email domain: example.com
+2025-07-26 10:29:20 [http-nio-8082-exec-4] WARN  c.example.controller.AuthController - No IdP configuration found for domain: example.com
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG c.e.service.IdpConfigurationService - Fetching all active IdP configurations
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        ic1_0.id,
+        ic1_0.created_at,
+        ic1_0.display_name,
+        ic1_0.idp_id,
+        ic1_0.name,
+        ic1_0.is_active,
+        ic1_0.is_default,
+        ic1_0.logo_url,
+        ic1_0.updated_at 
+    from
+        idp_configurations ic1_0 
+    where
+        ic1_0.is_active
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.idp_configuration_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.property_name,
+        p1_0.property_value,
+        p1_0.updated_at 
+    from
+        idp_properties p1_0 
+    where
+        p1_0.idp_configuration_id=?
+2025-07-26 10:29:20 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        ed1_0.idp_configuration_id,
+        ed1_0.id,
+        ed1_0.created_at,
+        ed1_0.email_domain,
+        ed1_0.is_active,
+        ed1_0.updated_at 
+    from
+        idp_email_domains ed1_0 
+    where
+        ed1_0.idp_configuration_id=?
+2025-07-26 10:29:20 [http-nio-8082-exec-4] INFO  c.e.service.IdpConfigurationService - Found 1 active IdP configurations

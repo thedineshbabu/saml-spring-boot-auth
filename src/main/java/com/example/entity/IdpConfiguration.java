@@ -58,10 +58,10 @@ public class IdpConfiguration {
     private LocalDateTime updatedAt;
     
     // Relationships
-    @OneToMany(mappedBy = "idpConfiguration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idpConfiguration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<IdpProperty> properties = new ArrayList<>();
     
-    @OneToMany(mappedBy = "idpConfiguration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idpConfiguration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<IdpEmailDomain> emailDomains = new ArrayList<>();
     
     // Constructors
