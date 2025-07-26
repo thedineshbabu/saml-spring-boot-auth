@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SAML Spring Boot Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .user-email {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .welcome-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .auth-info {
+            background: #f8f9ff;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .auth-info h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .logout-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logout-section h3 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .logout-options {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .logout-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-option:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        
+        .logout-info {
+            flex: 1;
+        }
+        
+        .logout-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .logout-description {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .logout-btn-secondary {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .logout-btn-secondary:hover {
+            background: #5a67d8;
+        }
+        
+        .logout-btn-simple {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .logout-btn-simple:hover {
+            background: #4b5563;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">SAML Spring Boot App</div>
+            
+            <div class="user-info">
+                <div class="user-avatar" th:text="${username.substring(0, 1).toUpperCase()}">U</div>
+                
+                <div class="user-details">
+                    <div class="user-name" th:text="${username}">User Name</div>
+                    <div class="user-email" th:text="${email ?: 'No email available'}">user@example.com</div>
+                </div>
+                
+                <button class="logout-btn" onclick="window.location.href='/logout?simple=true'">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1 class="welcome-title">Welcome, <span th:text="${username}">User</span>!</h1>
+            <p class="welcome-subtitle">
+                You have successfully authenticated using SAML 2.0. 
+                Your session is secure and managed by Spring Security.
+            </p>
+            
+            <!-- Authentication Information -->
+            <div class="auth-info">
+                <h3>Authentication Details</h3>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Username</div>
+                        <div class="info-value" th:text="${username}">N/A</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" th:text="${email ?: 'Not provided'}">N/A</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Authentication Type</div>
+                        <div class="info-value">SAML 2.0</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Session ID</div>
+                        <div class="info-value" th:text="${#session.id}">N/A</div>
+                    </div>
+                </div>
+                
+                <!-- SAML Attributes -->
+                <div th:if="${samlAttributes}" style="margin-top: 20px;">
+                    <h4 style="color: #333; font-size: 16px; margin-bottom: 10px;">SAML Attributes</h4>
+                    <div class="info-grid">
+                        <div th:each="attr : ${samlAttributes}" class="info-item">
+                            <div class="info-label" th:text="${attr.key}">Attribute</div>
+                            <div class="info-value" th:text="${attr.value}">Value</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Logout Section -->
+        <section class="logout-section">
+            <h3>Logout Options</h3>
+            
+            <div class="logout-options">
+                <!-- SAML Logout Options -->
+                <div th:each="idp : ${idpConfigurations}" 
+                     th:if="${idp.isActive and idp.idpSloUrl}"
+                     class="logout-option">
+                    
+                    <div class="logout-info">
+                        <div class="logout-title" th:text="'SAML Logout via ' + ${idp.displayName ?: idp.idpName}">
+                            SAML Logout
+                        </div>
+                        <div class="logout-description">
+                            Complete logout from both this application and your identity provider
+                        </div>
+                    </div>
+                    
+                    <button class="logout-btn-secondary" 
+                            th:onclick="'window.location.href=\'/logout?idp=' + ${idp.idpId} + '\'">
+                        SAML Logout
+                    </button>
+                </div>
+                
+                <!-- Simple Logout Option -->
+                <div class="logout-option">
+                    <div class="logout-info">
+                        <div class="logout-title">Simple Logout</div>
+                        <div class="logout-description">
+                            Logout from this application only (session invalidation)
+                        </div>
+                    </div>
+                    
+                    <button class="logout-btn-simple" onclick="window.location.href='/logout?simple=true'">
+                        Simple Logout
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>Secure authentication powered by SAML 2.0 and Spring Security</p>
+        <p>Spring Boot SAML Application v1.0.0</p>
+    </footer>
+    
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effects to logout buttons
+            document.querySelectorAll('button').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // Auto-refresh session info every 5 minutes
+            setInterval(function() {
+                // This could be used to refresh session data if needed
+                console.log('Session check - user still authenticated');
+            }, 300000);
+        });
+    </script>
+</body>
+</html> 
