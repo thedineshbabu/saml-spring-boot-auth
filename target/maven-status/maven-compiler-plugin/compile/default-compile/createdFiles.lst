@@ -1,0 +1,9 @@
+com/example/entity/IdpProperty.class
+com/example/SamlApplication.class
+com/example/config/SecurityConfig.class
+com/example/repository/IdpConfigurationRepository.class
+com/example/entity/IdpEmailDomain.class
+com/example/config/SecurityConfig$1.class
+com/example/controller/AuthController.class
+com/example/entity/IdpConfiguration.class
+com/example/service/IdpConfigurationService.class

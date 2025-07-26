@@ -101,24 +101,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- SAML XML Processing -->
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml-core</artifactId>
-            <version>5.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml-saml-api</artifactId>
-            <version>5.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml-saml-impl</artifactId>
-            <version>5.1.0</version>
-        </dependency>
+        <!-- SAML XML Processing - Spring Security SAML2 handles this internally -->
+        <!-- OpenSAML dependencies removed as they're included in spring-security-saml2-service-provider -->
 
         <!-- Utilities -->
         <dependency>

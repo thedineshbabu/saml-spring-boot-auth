@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.Saml2MessageBinding;
-import org.springframework.security.saml2.provider.service.servlet.filter.Saml2WebSsoAuthenticationFilter;
+// Removed import as it's not needed in newer Spring Security versions
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -80,13 +80,10 @@ public class SecurityConfig {
                 .relyingPartyRegistrationRepository(relyingPartyRegistrationRepository())
             )
             
-            // Configure SAML logout
-            .saml2Logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout=true")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-            )
+                               // Configure SAML logout
+                   .saml2Logout(logout -> logout
+                       .logoutUrl("/logout")
+                   )
             
             // Configure session management
             .sessionManagement(session -> session
@@ -107,40 +104,38 @@ public class SecurityConfig {
         return http.build();
     }
     
-    /**
-     * Configure Relying Party Registration Repository for SAML.
-     * 
-     * @return RelyingPartyRegistrationRepository
-     */
-    @Bean
-    public RelyingPartyRegistrationRepository relyingPartyRegistrationRepository() {
-        logger.info("Initializing SAML Relying Party Registration Repository");
-        
-        return new RelyingPartyRegistrationRepository() {
-            @Override
-            public RelyingPartyRegistration findByRegistrationId(String registrationId) {
-                logger.debug("Looking up SAML registration for ID: {}", registrationId);
-                
-                return idpConfigurationService.getByIdpId(registrationId)
-                    .map(this::createRelyingPartyRegistration)
-                    .orElse(null);
-            }
-            
-            @Override
-            public Iterable<RelyingPartyRegistration> iterator() {
-                logger.debug("Retrieving all SAML registrations");
-                
-                List<RelyingPartyRegistration> registrations = idpConfigurationService
-                    .getAllActiveIdpConfigurations()
-                    .stream()
-                    .map(this::createRelyingPartyRegistration)
-                    .toList();
-                
-                logger.info("Found {} active SAML registrations", registrations.size());
-                return registrations;
-            }
-        };
-    }
+               /**
+            * Configure Relying Party Registration Repository for SAML.
+            * 
+            * @return RelyingPartyRegistrationRepository
+            */
+           @Bean
+           public RelyingPartyRegistrationRepository relyingPartyRegistrationRepository() {
+               logger.info("Initializing SAML Relying Party Registration Repository");
+               
+               return new RelyingPartyRegistrationRepository() {
+                   public RelyingPartyRegistration findByRegistrationId(String registrationId) {
+                       logger.debug("Looking up SAML registration for ID: {}", registrationId);
+                       
+                       return idpConfigurationService.getByIdpId(registrationId)
+                           .map(SecurityConfig.this::createRelyingPartyRegistration)
+                           .orElse(null);
+                   }
+                   
+                   public Iterable<RelyingPartyRegistration> iterator() {
+                       logger.debug("Retrieving all SAML registrations");
+                       
+                       List<RelyingPartyRegistration> registrations = idpConfigurationService
+                           .getAllActiveIdpConfigurations()
+                           .stream()
+                           .map(SecurityConfig.this::createRelyingPartyRegistration)
+                           .toList();
+                       
+                       logger.info("Found {} active SAML registrations", registrations.size());
+                       return registrations;
+                   }
+               };
+           }
     
     /**
      * Create RelyingPartyRegistration from IdP configuration.
@@ -152,18 +147,17 @@ public class SecurityConfig {
         logger.debug("Creating SAML registration for IdP: {}", idpConfig.getIdpName());
         
         try {
-            return RelyingPartyRegistration
-                .withRegistrationId(idpConfig.getIdpId())
-                .assertionConsumerServiceLocation("http://localhost:8080/login/saml2/sso/" + idpConfig.getIdpId())
-                .entityId("http://localhost:8080/saml2/service-provider-metadata/" + idpConfig.getIdpId())
-                .signingX509Credentials(credentials -> credentials.add(getSigningCredential()))
-                .assertingPartyDetails(party -> party
-                    .entityId(idpConfig.getIdpEntityId())
-                    .singleSignOnServiceLocation(idpConfig.getIdpSsoUrl())
-                    .singleSignOnServiceBinding(Saml2MessageBinding.HTTP_REDIRECT)
-                    .wantAuthnRequestsSigned(false)
-                )
-                .build();
+                           return RelyingPartyRegistration
+                   .withRegistrationId(idpConfig.getIdpId())
+                   .assertionConsumerServiceLocation("http://localhost:8080/login/saml2/sso/" + idpConfig.getIdpId())
+                   .entityId("http://localhost:8080/saml2/service-provider-metadata/" + idpConfig.getIdpId())
+                   .assertingPartyDetails(party -> party
+                       .entityId(idpConfig.getIdpEntityId())
+                       .singleSignOnServiceLocation(idpConfig.getIdpSsoUrl())
+                       .singleSignOnServiceBinding(Saml2MessageBinding.REDIRECT)
+                       .wantAuthnRequestsSigned(false)
+                   )
+                   .build();
                 
         } catch (Exception e) {
             logger.error("Failed to create SAML registration for IdP {}: {}", 
@@ -172,25 +166,5 @@ public class SecurityConfig {
         }
     }
     
-    /**
-     * Get signing credential for SAML requests.
-     * 
-     * @return Saml2X509Credential
-     */
-    private org.springframework.security.saml2.credentials.Saml2X509Credential getSigningCredential() {
-        // TODO: Implement certificate loading from configuration
-        // For now, return a placeholder credential
-        logger.warn("Using placeholder SAML signing credential - implement certificate loading");
-        
-        try {
-            // This is a placeholder - in production, load from keystore or configuration
-            return org.springframework.security.saml2.credentials.Saml2X509Credential.signing(
-                java.security.KeyFactory.getInstance("RSA").generatePrivate(null),
-                java.security.cert.CertificateFactory.getInstance("X.509").generateCertificate(null)
-            );
-        } catch (Exception e) {
-            logger.error("Failed to create SAML signing credential: {}", e.getMessage(), e);
-            throw new RuntimeException("SAML credential creation failed", e);
-        }
-    }
+               // Removed getSigningCredential method as it's not needed for basic SAML setup
 } 

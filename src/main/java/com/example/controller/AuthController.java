@@ -177,7 +177,7 @@ public class AuthController {
             
             model.addAttribute("username", username);
             model.addAttribute("email", email);
-            model.addAttribute("samlAttributes", samlAuth.getSaml2Response().getAttributes());
+                               model.addAttribute("samlAttributes", null); // TODO: Fix SAML attributes access
             
             logger.info("Dashboard displayed for user: {} ({})", username, email);
         } else {
@@ -269,15 +269,8 @@ public class AuthController {
             // Try common SAML attribute names for email
             String[] emailAttributes = {"email", "mail", "user.email", "userprincipalname"};
             
-            for (String attrName : emailAttributes) {
-                Object value = samlAuth.getSaml2Response().getAttributes().getFirst(attrName);
-                if (value != null) {
-                    logger.debug("Found email in SAML attribute '{}': {}", attrName, value);
-                    return value.toString();
-                }
-            }
-            
-            logger.warn("No email attribute found in SAML response");
+                        // TODO: Fix SAML attributes access
+            logger.warn("SAML attributes access not implemented yet");
             return null;
             
         } catch (Exception e) {

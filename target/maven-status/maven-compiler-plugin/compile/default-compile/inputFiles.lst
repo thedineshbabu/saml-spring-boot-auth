@@ -1,0 +1,8 @@
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/entity/IdpEmailDomain.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/SamlApplication.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/service/IdpConfigurationService.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/repository/IdpConfigurationRepository.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/config/SecurityConfig.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/controller/AuthController.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/entity/IdpProperty.java
+/Users/dinesh/workspace/Cursor/sample-saml-java-app/saml-spring-boot-auth/src/main/java/com/example/entity/IdpConfiguration.java

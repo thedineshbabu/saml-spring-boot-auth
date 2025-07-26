@@ -1,0 +1,121 @@
+# Spring Boot SAML Application Configuration
+# 
+# This configuration file contains all application settings for the
+# SAML Spring Boot application, including database, security, and logging.
+
+spring:
+  application:
+    name: saml-spring-boot-auth
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/saml_app_db
+    username: opal_user
+    password: opal_password
+    driver-class-name: org.postgresql.Driver
+    
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+    open-in-view: false
+    
+  # Thymeleaf Configuration
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+    
+  # Security Configuration
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          default:
+            signing:
+              credentials:
+                - private-key-location: classpath:credentials/saml-private.key
+                  certificate-location: classpath:credentials/saml-certificate.crt
+            assertingparty:
+              metadata-uri: classpath:metadata/idp-metadata.xml
+              entity-id: http://localhost:8080/saml2/service-provider-metadata/default
+              single-sign-on:
+                sign-request: false
+                binding: redirect
+                url: http://localhost:8080/saml2/authentication/default
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.saml2: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/saml-spring-boot-auth.log
+    max-size: 10MB
+    max-history: 30
+
+# Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Cache Configuration
+spring:
+  cache:
+    type: simple
+    cache-names:
+      - idpConfigurations
+      - idpConfiguration
+      - defaultIdpConfiguration
+      - idpConfigurationByEmail
+      - idpConfigurationsWithDetails
+
+# SAML Application Properties
+saml:
+  app:
+    name: "SAML Spring Boot Application"
+    version: "1.0.0"
+    description: "Modern Spring Boot SAML application"
+  
+  # Default SAML Settings
+  default:
+    entity-id: "http://localhost:8080/saml2/service-provider-metadata/default"
+    acs-url: "http://localhost:8080/login/saml2/sso/default"
+    logout-url: "http://localhost:8080/logout"
+    
+  # Certificate Configuration
+  certificate:
+    keystore:
+      location: classpath:credentials/saml-keystore.jks
+      password: changeit
+      alias: saml
+      key-password: changeit 
